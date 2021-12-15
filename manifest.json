@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Weather App",
+  "version": "1.0.0",
+  "description": "See weather information",
+  "action": {
+    "default_icon": "mdb-favicon.ico"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  }
+}

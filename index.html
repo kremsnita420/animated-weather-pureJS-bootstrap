@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Material Design for Bootstrap</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <!-- MDB -->
+    <link rel="stylesheet" href="css/mdb.min.css" />
+  </head>
+  <body>
+    <!--! Start your project here-->
+    <!--! Start your project here-->
+
+    <div class="container my-5">
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+
+          <!-- searchbox -->
+          <div class="input-group  d-flex justify-content-center">
+            <div class="form-outline">
+              <input type="search" id="form1" class="form-control" />
+              <label class="form-label" for="form1">Search</label>
+            </div>
+           
+          </div>
+
+          <!-- bootstrap card -->
+          <div id="wrapper-bg" class="card bg-image shadow-1-strong text-white" style="background-image: url('img/rain.gif'); background-position: center">
+            <!-- Main current data -->
+            <div class="card-header text-center border-0 mb-3">
+
+              <p class="h2 mb-1 " id="wrapper-name"></p>
+              <p class="mb-1" id="wrapper-description"></p>
+              <p class="display-1 mb-1" id="wrapper-temp"></p>
+              <span>Pressure: <span id="wrapper-pressure"></span></span>
+              <span class="mx-2"></span>
+              <span>Humidity: <span id="wrapper-humidity"></span></span>
+
+            </div>
+            <!-- Hourly forecast -->
+            <div class="card-body border-top border-bottom text-center">
+
+              <div class="row">
+
+                <div class="col-2">
+                  <strong id='wrapper-time' class="d-block mb-2">Now</strong>
+                  <img id="wrapper-icon-hour-now" src="" alt="">
+                  <strong class="d-block" id="wrapper-hour-now"></strong>
+                </div>
+
+                <div class="col-2">
+                  <strong id='wrapper-time1' class="d-block mb-2">Now1</strong>
+                  <img id="wrapper-icon-hour1" src="" alt="">
+                  <strong class="d-block" id="wrapper-hour1"></strong>
+                </div>
+
+                <div class="col-2">
+                  <strong id='wrapper-time2' class="d-block mb-2">Now2</strong>
+                  <img id="wrapper-icon-hour2" src="" alt="">
+                  <strong class="d-block" id="wrapper-hour2"></strong>
+                </div>
+
+                <div class="col-2">
+                  <strong id='wrapper-time3' class="d-block mb-2">Now3</strong>
+                  <img id="wrapper-icon-hour3" src="" alt="">
+                  <strong class="d-block" id="wrapper-hour3"></strong>
+                </div>
+
+                <div class="col-2">
+                  <strong id='wrapper-time4' class="d-block mb-2">Now4</strong>
+                  <img id="wrapper-icon-hour4" src="" alt="">
+                  <strong class="d-block" id="wrapper-hour4"></strong>
+                </div>
+
+                <div class="col-2">
+                  <strong id='wrapper-time5' class="d-block mb-2">Now5</strong>
+                  <img id="wrapper-icon-hour5" src="" alt="">
+                  <strong class="d-block" id="wrapper-hour5"></strong>
+                </div>
+
+              </div>
+
+            </div>
+            <!-- Daily Forecast -->
+            <div class="card-body px-5">
+              <!-- today -->
+              <div class="row align-items-center">
+                <div class="text-center col-md-6">
+                  <strong>Today</strong>
+                </div>
+                <div class="col-md-2 text-center">
+                  <img id='wrapper-icon-today' src="" alt="">
+                </div>
+                <div class="col-md-4 text-center">
+                  <span id="wrapper-forecast-temp-today"></span>
+                </div>
+              </div>
+
+              <!-- tomorrow -->
+              <div class="row align-items-center">
+                <div class="text-center col-md-6">
+                  <strong>Tomorrow</strong>
+                </div>
+                <div class="col-md-2 text-center">
+                  <img id='wrapper-icon-tomorrow' src="" alt="">
+                </div>
+                <div class="col-md-4 text-center">
+                  <span id="wrapper-forecast-temp-tomorrow"></span>
+                </div>
+              </div>
+
+              <!-- day after tomorrow -->
+              <div class="row align-items-center">
+                <div class="text-center col-md-6">
+                  <strong>Day after tomorrow</strong>
+                </div>
+                <div class="col-md-2 text-center">
+                  <img id='wrapper-icon-dAT' src="" alt="">
+                </div>
+                <div class="col-md-4 text-center">
+                  <span id="wrapper-forecast-temp-dAT"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+        </div>
+      </div>
+    </div>
+
+    <!--! End your project here-->
+    <!--! End your project here-->
+
+    <!-- MDB -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- Custom scripts -->
+    <script type="text/javascript">
+      const baseUrl = "https://api.openweathermap.org/data/2.5/"
+      const apiKey = "7a7989f3e4e9807b566e7c41ae7941db"
+      
+      
+      
+
+      //get lat and long
+      navigator.geolocation.getCurrentPosition(position => {
+          const searchbox = document.getElementById('form1');
+          searchbox.addEventListener('keypress', setQuery);
+          let query
+          let weather
+
+          function setQuery(evt) {
+            if (evt.keyCode == 13) {
+              getResults(searchbox.value);
+            }
+          }
+
+          function getResults (query) {
+            fetch(`${baseUrl}weather?q=${query}&units=metric&APPID=${apiKey}`)
+              .then(weather => {
+                return weather.json();
+                console.log(weather)
+              }).then(displayResults);
+            
+          }
+
+        function displayResults (weather) {
+          console.log(weather)
+          let location =  weather.name
+          document.getElementById('wrapper-name').innerHTML = location 
+        }
+
+        fetch(`${baseUrl}onecall?lat=${position.coords.latitude}&lon=${position.coords.longitude}&exclude={part}&appid=${apiKey}&units=metric&lang=en`)
+            .then(res => {
+                if (!res.ok) {
+                    throw Error("Weather is not currently available. Please try later")
+                }
+                return res.json()
+            })
+            .then(data => {
+              data = query ? weather : data
+              console.log(data)
+              
+              
+              
+              
+             
+              //WEATHER MAIN DATA
+              let main = data.current.weather[0].main
+              let description = data.current.weather[0].description
+              let temp = Math.round(data.current.temp)
+              let pressure = data.current.pressure
+              let humidity = data.current.humidity
+              let location =  data.timezone.split('/').pop()
+
+              document.getElementById("wrapper-description").innerHTML = description
+              document.getElementById('wrapper-temp').innerHTML = temp + '&ordm; C'
+              document.getElementById('wrapper-pressure').innerHTML = pressure
+              document.getElementById('wrapper-humidity').innerHTML = humidity + ' %'
+              document.getElementById('wrapper-name').innerHTML = location 
+
+              //WEATHER HOURLY DATA
+              let hourNow = data.hourly[0].temp
+              let hour1 = data.hourly[1].temp
+              let hour2 = data.hourly[2].temp
+              let hour3 = data.hourly[3].temp
+              let hour4 = data.hourly[4].temp
+              let hour5 = data.hourly[5].temp
+
+              document.getElementById("wrapper-hour-now").innerHTML = Math.round(hourNow)  + '&ordm; C'
+              document.getElementById("wrapper-hour1").innerHTML = Math.round(hour1)  + '&ordm; C'
+              document.getElementById("wrapper-hour2").innerHTML = Math.round(hour2)  + '&ordm; C'
+              document.getElementById("wrapper-hour3").innerHTML = Math.round(hour3)  + '&ordm; C'
+              document.getElementById("wrapper-hour4").innerHTML = Math.round(hour4)  + '&ordm; C'
+              document.getElementById("wrapper-hour5").innerHTML = Math.round(hour5)  + '&ordm; C'
+
+              //time
+              let timeNow = new Date().getHours()
+              let time1 = timeNow + 1
+              let time2 = time1 + 1
+              let time3 = time2 + 1
+              let time4 = time3 + 1
+              let time5 = time4 + 1
+
+              document.getElementById('wrapper-time1').innerHTML = time1 + ':00'
+              document.getElementById('wrapper-time2').innerHTML = time2 + ':00'
+              document.getElementById('wrapper-time3').innerHTML = time3 + ':00'
+              document.getElementById('wrapper-time4').innerHTML = time4 + ':00'
+              document.getElementById('wrapper-time5').innerHTML = time5 + ':00'
+
+              //WEATHER DAILY DATA
+              let tomorrowTemp = Math.round(data.daily[0].temp.day)
+              let tomorrowMain = data.daily[0].weather[0].main
+              let dATTemp = Math.round(data.daily[1].temp.day)
+              let dATTempMain = data.daily[1].weather[0].main
+
+              document.getElementById('wrapper-forecast-temp-today').innerHTML = temp + '&ordm; C'
+              document.getElementById('wrapper-forecast-temp-tomorrow').innerHTML = tomorrowTemp + '&ordm; C'
+              document.getElementById('wrapper-forecast-temp-dAT').innerHTML = dATTemp + '&ordm; C'
+
+
+              //ICONS
+
+              //ICONS DAILY
+              let iconBaseUrl = 'http://openweathermap.org/img/wn/'
+              let iconFormat = '.png'
+
+              //today icon
+              let iconCodeToday = data.current.weather[0].icon
+              let iconFullUrlToday = iconBaseUrl + iconCodeToday + iconFormat
+
+              // //tomorrow icon
+              let iconCodeTomorrow = data.daily[0].weather[0].icon
+              let iconFullUrlTomorrow = iconBaseUrl + iconCodeTomorrow + iconFormat
+
+              //day after tomorrow icon
+              let iconCodeDAT = data.daily[1].weather[0].icon
+              let iconFullUrlDAT = iconBaseUrl + iconCodeDAT + iconFormat
+
+              document.getElementById('wrapper-icon-today').src = iconFullUrlToday
+              document.getElementById('wrapper-icon-tomorrow').src = iconFullUrlTomorrow
+              document.getElementById('wrapper-icon-dAT').src = iconFullUrlTomorrow
+
+              //ICONS HOURLY
+
+              //hour now
+              let iconHourNow = data.hourly[0].weather[0].icon
+              let iconFullUrlHourNow = iconBaseUrl + iconHourNow + iconFormat
+              //hour now1
+              let iconHour1 = data.hourly[1].weather[0].icon
+              let iconFullUrlHour1 = iconBaseUrl + iconHour1 + iconFormat
+              //hour now2
+              let iconHour2 = data.hourly[2].weather[0].icon
+              let iconFullUrlHour2 = iconBaseUrl + iconHour2 + iconFormat
+              //hour now3
+              let iconHour3 = data.hourly[3].weather[0].icon
+              let iconFullUrlHour3 = iconBaseUrl + iconHour3 + iconFormat
+              //hour now4
+              let iconHour4 = data.hourly[4].weather[0].icon
+              let iconFullUrlHour4 = iconBaseUrl + iconHour4 + iconFormat
+              //hour now5
+              let iconHour5 = data.hourly[5].weather[0].icon
+              let iconFullUrlHour5 = iconBaseUrl + iconHour5 + iconFormat
+
+
+              document.getElementById('wrapper-icon-hour-now').src = iconFullUrlHourNow
+              document.getElementById('wrapper-icon-hour1').src = iconFullUrlHour1
+              document.getElementById('wrapper-icon-hour2').src = iconFullUrlHour2
+              document.getElementById('wrapper-icon-hour3').src = iconFullUrlHour3
+              document.getElementById('wrapper-icon-hour4').src = iconFullUrlHour4
+              document.getElementById('wrapper-icon-hour5').src = iconFullUrlHour5
+
+              //BACKGROUNDS
+              switch (main) {
+                case "Snow":
+                  document.getElementById("wrapper-bg").style.backgroundImage =
+                    "url('https://mdbgo.io/ascensus/mdb-advanced/img/snow.gif')";
+                  break;
+                case "Clouds":
+                  document.getElementById("wrapper-bg").style.backgroundImage =
+                    "url('https://mdbgo.io/ascensus/mdb-advanced/img/clouds.gif')";
+                  break;
+                case "Fog":
+                  document.getElementById("wrapper-bg").style.backgroundImage =
+                    "url('https://mdbgo.io/ascensus/mdb-advanced/img/fog.gif')";
+                  break;
+                case "Rain":
+                  document.getElementById("wrapper-bg").style.backgroundImage =
+                    "url('https://mdbgo.io/ascensus/mdb-advanced/img/rain.gif')";
+                  break;
+                case "Clear":
+                  document.getElementById("wrapper-bg").style.backgroundImage =
+                    "url('https://mdbgo.io/ascensus/mdb-advanced/img/clear.gif')";
+                  break;
+                case "Thunderstorm":
+                  document.getElementById("wrapper-bg").style.backgroundImage =
+                    "url('https://mdbgo.io/ascensus/mdb-advanced/img/thunderstorm.gif')";
+                  break;
+                default:
+                  document.getElementById("wrapper-bg").style.backgroundImage =
+                    "url('https://mdbgo.io/ascensus/mdb-advanced/img/clear.gif')";
+                  break;
+              }
+
+            })
+          })
+
+    </script>
+  </body>
+</html>
