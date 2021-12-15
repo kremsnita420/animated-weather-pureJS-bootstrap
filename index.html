@@ -21,9 +21,9 @@
     <!--! Start your project here-->
     <!--! Start your project here-->
 
-    <div class="container my-5">
+    <div class="container">
       <div class="row d-flex justify-content-center">
-        <div class="col-lg-6 col-md-8 col-sm-10">
+        <div class="col-lg-8 col-md-10 col-sm-12">
 
           <!-- searchbox -->
           <div class="input-group  d-flex justify-content-center">
@@ -53,37 +53,37 @@
               <div class="row">
 
                 <div class="col-2">
-                  <strong id='wrapper-time' class="d-block mb-2">Now</strong>
+                  <strong id='wrapper-time' class="d-block mb-2"><i class="fas fa-angle-double-right"></i></strong>
                   <img id="wrapper-icon-hour-now" src="" alt="">
                   <strong class="d-block" id="wrapper-hour-now"></strong>
                 </div>
 
                 <div class="col-2">
-                  <strong id='wrapper-time1' class="d-block mb-2">Now1</strong>
+                  <strong id='wrapper-time1' class="d-block mb-2"></strong>
                   <img id="wrapper-icon-hour1" src="" alt="">
                   <strong class="d-block" id="wrapper-hour1"></strong>
                 </div>
 
                 <div class="col-2">
-                  <strong id='wrapper-time2' class="d-block mb-2">Now2</strong>
+                  <strong id='wrapper-time2' class="d-block mb-2"></strong>
                   <img id="wrapper-icon-hour2" src="" alt="">
                   <strong class="d-block" id="wrapper-hour2"></strong>
                 </div>
 
                 <div class="col-2">
-                  <strong id='wrapper-time3' class="d-block mb-2">Now3</strong>
+                  <strong id='wrapper-time3' class="d-block mb-2"></strong>
                   <img id="wrapper-icon-hour3" src="" alt="">
                   <strong class="d-block" id="wrapper-hour3"></strong>
                 </div>
 
                 <div class="col-2">
-                  <strong id='wrapper-time4' class="d-block mb-2">Now4</strong>
+                  <strong id='wrapper-time4' class="d-block mb-2"></strong>
                   <img id="wrapper-icon-hour4" src="" alt="">
                   <strong class="d-block" id="wrapper-hour4"></strong>
                 </div>
 
                 <div class="col-2">
-                  <strong id='wrapper-time5' class="d-block mb-2">Now5</strong>
+                  <strong id='wrapper-time5' class="d-block mb-2"></strong>
                   <img id="wrapper-icon-hour5" src="" alt="">
                   <strong class="d-block" id="wrapper-hour5"></strong>
                 </div>
@@ -234,11 +234,11 @@
               let time4 = time3 + 1
               let time5 = time4 + 1
 
-              document.getElementById('wrapper-time1').innerHTML = time1 + ':00'
-              document.getElementById('wrapper-time2').innerHTML = time2 + ':00'
-              document.getElementById('wrapper-time3').innerHTML = time3 + ':00'
-              document.getElementById('wrapper-time4').innerHTML = time4 + ':00'
-              document.getElementById('wrapper-time5').innerHTML = time5 + ':00'
+              document.getElementById('wrapper-time1').innerHTML = time1 
+              document.getElementById('wrapper-time2').innerHTML = time2 
+              document.getElementById('wrapper-time3').innerHTML = time3 
+              document.getElementById('wrapper-time4').innerHTML = time4 > 24 ? time4 - 24 : time4
+              document.getElementById('wrapper-time5').innerHTML = time5 > 24 ? time5 - 24 : time5
 
               //WEATHER DAILY DATA
               let tomorrowTemp = Math.round(data.daily[0].temp.day)
@@ -303,7 +303,7 @@
               document.getElementById('wrapper-icon-hour5').src = iconFullUrlHour5
 
 
-              main='Snow'
+              
               //BACKGROUNDS
               switch (main) {
                 case "Snow":
