@@ -17,25 +17,15 @@
     <!-- MDB -->
     <link rel="stylesheet" href="css/mdb.min.css" />
   </head>
-  <body>
+  <body class="bg-info">
     <!--! Start your project here-->
-    <!--! Start your project here-->
-
-    <div class="container">
-      <div class="row d-flex justify-content-center">
+    <div class="container h-100 py-5">
+      <div class="row d-flex align-items-center justify-content-center">
         <div class="col-lg-8 col-md-10 col-sm-12">
-
-          <!-- searchbox -->
-          <div class="input-group  d-flex justify-content-center">
-            <div class="form-outline">
-              <input type="search" id="form1" class="form-control" />
-              <label class="form-label" for="form1">Search</label>
-            </div>
-           
-          </div>
+          <h1 class="text-center my-5">Weather App</h1>
 
           <!-- bootstrap card -->
-          <div id="wrapper-bg" class="card bg-image shadow-1-strong text-white" style="background-image: url('img/rain.gif'); background-position: center">
+          <div id="wrapper-bg" class="card bg-image shadow-1-strong text-white" style="background-image: url('img/clear.gif'); background-position: center">
             <!-- Main current data -->
             <div class="card-header text-center border-0 mb-3">
 
@@ -140,8 +130,6 @@
         </div>
       </div>
     </div>
-
-    <!--! End your project here-->
     <!--! End your project here-->
 
     <!-- MDB -->
@@ -150,39 +138,16 @@
     <script type="text/javascript">
       const baseUrl = "https://api.openweathermap.org/data/2.5/"
       const apiKey = "7a7989f3e4e9807b566e7c41ae7941db"
-      
-      
-      
+      let weather
+      let lat 
+      let long
+     
 
       //get lat and long
       navigator.geolocation.getCurrentPosition(position => {
-          const searchbox = document.getElementById('form1');
-          searchbox.addEventListener('keypress', setQuery);
-          let query
-          let weather
-
-          function setQuery(evt) {
-            if (evt.keyCode == 13) {
-              getResults(searchbox.value);
-            }
-          }
-
-          function getResults (query) {
-            fetch(`${baseUrl}weather?q=${query}&units=metric&APPID=${apiKey}`)
-              .then(weather => {
-                return weather.json();
-                console.log(weather)
-              }).then(displayResults);
-            
-          }
-
-        function displayResults (weather) {
-          console.log(weather)
-          let location =  weather.name
-          document.getElementById('wrapper-name').innerHTML = location 
-        }
-
-        fetch(`${baseUrl}onecall?lat=${position.coords.latitude}&lon=${position.coords.longitude}&exclude={part}&appid=${apiKey}&units=metric&lang=en`)
+      
+        //fetch weather data based on geo loaction
+        fetch(`${baseUrl}onecall?lat=${position.coords.latitude}&lon=${position.coords.longitude }&exclude={part}&appid=${apiKey}&units=metric&lang=en`)
             .then(res => {
                 if (!res.ok) {
                     throw Error("Weather is not currently available. Please try later")
@@ -190,13 +155,7 @@
                 return res.json()
             })
             .then(data => {
-              data = query ? weather : data
-              console.log(data)
-              
-              
-              
-              
-             
+                                            
               //WEATHER MAIN DATA
               let main = data.current.weather[0].main
               let description = data.current.weather[0].description
@@ -301,7 +260,6 @@
               document.getElementById('wrapper-icon-hour3').src = iconFullUrlHour3
               document.getElementById('wrapper-icon-hour4').src = iconFullUrlHour4
               document.getElementById('wrapper-icon-hour5').src = iconFullUrlHour5
-
 
               
               //BACKGROUNDS
